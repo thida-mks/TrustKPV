@@ -4,15 +4,76 @@ class GoldPrices extends StatelessWidget {
   const GoldPrices({Key? key}) : super(key: key);
 
   Widget kpvprice() {
-    return Row(children: <Widget>[
-      Expanded(
-        flex: 1,
-        child: Column(
-          
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Image.asset(
+                  'assets/logos/kpv_logo.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Expanded(
+              flex: 1,
+              child: Container(
+                padding: const EdgeInsets.all(10.0),
+                child: const Text(
+                  'ລາຄາຄຳປະຈຳວັນ',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: const EdgeInsets.all(12.0),
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 12, 80, 136),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5.0),
+                  ),
+                ),
+                child: const Center(
+                  child: Text(
+                    '08/11/2022',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: const EdgeInsets.all(3.0),
+                child: const Text(
+                  '10:00',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            ],
+          ),
         ),
-      ),
-      Expanded(child: Image.asset('assets/logos/kpv_gold.png'),)
-    ],);
+        Expanded(
+          flex: 1,
+          child: Image.asset('assets/logos/kpv_gold.png'),
+        )
+      ],
+    );
   }
 
   Widget kpvsellprice() {
