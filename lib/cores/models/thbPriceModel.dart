@@ -1,4 +1,6 @@
 class ThbPriceModel {
+  int? ts;
+  int? tsj;
   String? date;
   List<Items>? items;
 
@@ -27,28 +29,40 @@ class ThbPriceModel {
 class Items {
   String? curr;
   double? xauPrice;
+  double? xagPrice;
   double? chgXau;
+  double? chgXag;
   double? pcXau;
+  double? pcXag;
 
   Items(
       {this.curr,
       this.xauPrice,
+      this.xagPrice,
       this.chgXau,
-      this.pcXau,});
+      this.chgXag,
+      this.pcXau,
+      this.pcXag,});
 
   Items.fromJson(Map<String, dynamic> json) {
     curr = json['curr'];
     xauPrice = json['xauPrice'];
+    xagPrice = json['xagPrice'];
     chgXau = json['chgXau'];
+    chgXag = json['chgXag'];
     pcXau = json['pcXau'];
+    pcXag = json['pcXag'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['curr'] = this.curr;
     data['xauPrice'] = this.xauPrice;
+    data['xagPrice'] = this.xagPrice;
     data['chgXau'] = this.chgXau;
+    data['chgXag'] = this.chgXag;
     data['pcXau'] = this.pcXau;
+    data['pcXag'] = this.pcXag;
     return data;
   }
 }
