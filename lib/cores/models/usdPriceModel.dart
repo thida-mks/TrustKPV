@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this, unnecessary_new, prefer_collection_literals, camel_case_types
+
 class usdPriceModel {
   int? ts;
   int? tsj;
