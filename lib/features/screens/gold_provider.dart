@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +14,8 @@ class GoldProvider extends ChangeNotifier {
     Response res = await dioglobalgold.get('dbXRates/LAK');
     if (res.statusCode == 200) {
       lakPriceModel = LakPriceModel.fromJson(res.data);
+      notifyListeners();
+
       return res.data;
     }
   }
@@ -25,6 +25,8 @@ class GoldProvider extends ChangeNotifier {
     Response res = await dioglobalgold.get('dbXRates/USD');
     if (res.statusCode == 200) {
       usdPriceModel = UsdPriceModel.fromJson(res.data);
+      notifyListeners();
+
       return res.data;
     }
   }
@@ -34,6 +36,8 @@ class GoldProvider extends ChangeNotifier {
     Response res = await dioglobalgold.get('dbXRates/THB');
     if (res.statusCode == 200) {
       thbPriceModel = ThbPriceModel.fromJson(res.data);
+      notifyListeners();
+
       return res.data;
     }
   }
@@ -43,6 +47,8 @@ class GoldProvider extends ChangeNotifier {
     Response res = await dioglobalgold.get('dbXRates/CNY');
     if (res.statusCode == 200) {
       cnyPriceModel = CnyPriceModel.fromJson(res.data);
+      notifyListeners();
+
       return res.data;
     }
   }
@@ -60,8 +66,10 @@ class GoldProvider extends ChangeNotifier {
         'https://pkg94kdx82.execute-api.ap-southeast-1.amazonaws.com/api-gateway-service/api/v1/gateway/current-price?from_date=$oldDate&to_date=$currentdate');
     if (res.statusCode == 200) {
       kpvPriceModel = KpvPriceModel.fromJson(res.data);
-              print(res.data);
+      notifyListeners();
+
       return res.data[0];
     }
+    notifyListeners();
   }
 }
