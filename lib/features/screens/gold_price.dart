@@ -5,7 +5,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:testing_app/features/screens/gold_provider.dart';
 
-NumberFormat priceformatter = NumberFormat.decimalPattern('en_us');
+  NumberFormat priceformatter =
+    NumberFormat.currency(decimalDigits: 2, locale: 'en_us', symbol: "");
+NumberFormat priceformatterNodecimal =
+    NumberFormat.currency(decimalDigits: 0, locale: 'en_us', symbol: "");
 // final priceformatter = NumberFormat.decimalPattern();
 final DateTime now = DateTime.now();
 final DateFormat formatter = DateFormat('dd/MM/yyyy');
@@ -45,20 +48,20 @@ class _GoldPriceState extends State<GoldPrice> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.centerRight,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.centerRight,
           stops: [0.1, 0.6, 0.9],
-          colors: [
-            Color.fromARGB(255, 70, 168, 248),
+            colors: [
+              Color.fromARGB(255, 70, 168, 248),
             Color.fromARGB(255, 35, 118, 201),
             Color.fromARGB(255, 20, 79, 148),
-          ],
+            ],
+          ),
         ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
         appBar: AppBar(
           leading: const Icon(Icons.arrow_back),
           backgroundColor: Colors.transparent,
@@ -69,17 +72,17 @@ class _GoldPriceState extends State<GoldPrice> {
           ),
           centerTitle: true,
         ),
-        body: Container(
+          body: Container(
           padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
-          child: ListView(
-            children: [
-              kpvprice(context),
-              kpvsellprice(context),
-              titlegoldprice(),
-              goldprice(context),
-              titlesilverprice(),
-              silverprice(context),
-            ],
+            child: ListView(
+              children: [
+                kpvprice(context),
+                kpvsellprice(context),
+                titlegoldprice(),
+                goldprice(context),
+                titlesilverprice(),
+                silverprice(context),
+              ],
           ),
         ),
       ),
@@ -108,14 +111,14 @@ Widget kpvprice(BuildContext context) {
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
                   child: const Text(
-                    'ລາຄາຄຳປະຈຳວັນ',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        color: Colors.white),
+                      'ລາຄາຄຳປະຈຳວັນ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Colors.white),
+                    ),
                   ),
                 ),
-              ),
               Expanded(
                 flex: 1,
                 child: Container(
@@ -199,7 +202,7 @@ Widget kpvsellprice(BuildContext context) {
                         ),
                         child: Center(
                           child: Text('${kpvdata?.data?[0].oneBahtSalePrice.toString() != null ?
-                            priceformatter.format(
+                            priceformatterNodecimal.format(
                              kpvdata?.data?[0].oneBahtSalePrice
                             ).toString() : ""}' ' ກີບ',
                             style:
@@ -279,7 +282,7 @@ Widget kpvsellprice(BuildContext context) {
                           child: Text(
                             //priceformatter.format(
                            '${kpvdata?.data?[0].oneSalungSalePrice.toString() != null ?
-                            priceformatter.format(
+                            priceformatterNodecimal.format(
                              kpvdata?.data?[0].oneSalungSalePrice
                             ).toString() : ""}' ' ກີບ',
                             //),
@@ -387,7 +390,7 @@ Widget goldprice(BuildContext context) {
                             priceformatter.format(
                              lakdata?.items?[0].xauPrice
                             ).toString() : ""}' ' LAK',
-                            
+
                 //),
                 style: const TextStyle(
                   color: Color.fromARGB(255, 192, 178, 54),
@@ -408,9 +411,9 @@ Widget goldprice(BuildContext context) {
             Expanded(
               flex: 2,
               child:lakdata?.items![0].pcXau?.toStringAsFixed(2) !=null? Text(
-                //priceformatter.format(
-                lakdata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                //),
+                      //priceformatter.format(
+                      lakdata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+                      //),
                 style:TextStyle(
                   color:  lakdata!.items![0].pcXau! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
                 ) ,
@@ -450,11 +453,11 @@ Widget goldprice(BuildContext context) {
             Expanded(
               flex: 2,
               child:usddata?.items![0].pcXau?.toStringAsFixed(2) !=null? Text(
-                //priceformatter.format(
-                usddata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                //),
+                      //priceformatter.format(
+                      usddata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+                      //),
                 style:TextStyle(
-                  // color: usddata!.items![0].chgXag! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
+                        // color: usddata!.items![0].chgXag! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
                   color:  usddata!.items![0].chgXau! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
                 ) ,
               ):Text(''),
@@ -492,9 +495,9 @@ Widget goldprice(BuildContext context) {
             Expanded(
               flex: 2,
               child:thbdata?.items![0].pcXau?.toStringAsFixed(2) !=null? Text(
-                //priceformatter.format(
-                thbdata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                //),
+                      //priceformatter.format(
+                      thbdata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+                      //),
                 style:TextStyle(
                   color:  thbdata!.items![0].pcXau! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
                 ) ,
@@ -540,9 +543,9 @@ Widget goldprice(BuildContext context) {
             Expanded(
               flex: 2,
               child:cnydata?.items![0].pcXau?.toStringAsFixed(2) !=null? Text(
-                //priceformatter.format(
-                cnydata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                //),
+                      //priceformatter.format(
+                      cnydata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+                      //),
                 style:TextStyle(
                   color:  cnydata!.items![0].pcXau! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
                 ) ,
@@ -640,9 +643,9 @@ Widget silverprice(BuildContext context) {
             Expanded(
               flex: 2,
               child:lakdata?.items![0].pcXag?.toStringAsFixed(2) !=null? Text(
-                //priceformatter.format(
-                lakdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                //),
+                      //priceformatter.format(
+                      lakdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+                      //),
                 style:TextStyle(
                   color:  lakdata!.items![0].pcXag! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
                 ) ,
@@ -682,9 +685,9 @@ Widget silverprice(BuildContext context) {
             Expanded(
               flex: 2,
               child:usddata?.items![0].pcXag?.toStringAsFixed(2) !=null? Text(
-                //priceformatter.format(
-                usddata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                //),
+                      //priceformatter.format(
+                      usddata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+                      //),
                 style:TextStyle(
                   color:  usddata!.items![0].pcXag! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
                 ) ,
@@ -724,9 +727,9 @@ Widget silverprice(BuildContext context) {
             Expanded(
               flex: 2,
               child:thbdata?.items![0].pcXag?.toStringAsFixed(2) !=null? Text(
-                //priceformatter.format(
-                thbdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                //),
+                      //priceformatter.format(
+                      thbdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+                      //),
                 style:TextStyle(
                   color:  thbdata!.items![0].pcXag! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
                 ) ,
@@ -772,9 +775,9 @@ Widget silverprice(BuildContext context) {
             Expanded(
               flex: 2,
               child:cnydata?.items![0].pcXag?.toStringAsFixed(2) !=null? Text(
-                //priceformatter.format(
-                cnydata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                //),
+                      //priceformatter.format(
+                      cnydata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+                      //),
                 style:TextStyle(
                   color:  cnydata!.items![0].pcXag! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
                 ) ,

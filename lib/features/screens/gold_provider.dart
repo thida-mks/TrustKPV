@@ -50,29 +50,18 @@ class GoldProvider extends ChangeNotifier {
   KpvPriceModel? kpvPriceModel;
   getKpvGoldPrice() async {
     final DateTime now = DateTime.now();
-    late DateFormat formatter = DateFormat('yyyy-MM-dd');
-    final getyesterdayDate = now.subtract(
-      const Duration(days: 1),
+    final formatter = DateFormat('yyyy-MM-dd');
+    final getoldDate = now.subtract(
+      const Duration(days: 4),
     );
     final String currentdate = formatter.format(now);
+    final String oldDate = formatter.format(getoldDate);
     Response res = await diokpvgold.get(
-        'https://pkg94kdx82.execute-api.ap-southeast-1.amazonaws.com/api-gateway-service/api/v1/gateway/current-price?from_date=$currentdate&to_date=$currentdate');
-    if (res.data != null) {
-      print('Current Date: $currentdate');
-      if (res.statusCode == 200) {
-        kpvPriceModel = KpvPriceModel.fromJson(res.data);
-        return res.data;
-      }
-    } else {
-      final String yesterdayDate = formatter.format(getyesterdayDate);
-      Response resyesterday = await diokpvgold.get(
-          'https://pkg94kdx82.execute-api.ap-southeast-1.amazonaws.com/api-gateway-service/api/v1/gateway/current-price?from_date=$yesterdayDate&to_date=$yesterdayDate');
-      print(resyesterday.data);
-      print('Yesterday Date: $yesterdayDate');
-      if (resyesterday.statusCode == 200) {
-        kpvPriceModel = KpvPriceModel.fromJson(resyesterday.data);
-        return resyesterday.data;
-      }
+        'https://pkg94kdx82.execute-api.ap-southeast-1.amazonaws.com/api-gateway-service/api/v1/gateway/current-price?from_date=$oldDate&to_date=$currentdate');
+    if (res.statusCode == 200) {
+      kpvPriceModel = KpvPriceModel.fromJson(res.data);
+              print(res.data);
+      return res.data[0];
     }
   }
 }

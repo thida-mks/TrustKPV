@@ -54,4 +54,4 @@ final Dio diokpvgold = Dio(
     'kpv_key': '66cdf19ddb86ff2f55bcec57b411d566a7769517',
     'client_secret': 'LDB'
   })
-)..interceptors.add(GlobalpriceLogging());
+)..interceptors.add(GlobalpriceLogging(),);
