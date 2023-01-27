@@ -9,14 +9,12 @@ import 'package:testing_app/features/screens/gold_provider.dart';
 // import 'package:testing_app/features/screens/login.dart';
 
 void main() {
-   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => GoldProvider()),
-      ],
-      child: TestingApp(),
-    )
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => GoldProvider()),
+    ],
+    child: TestingApp(),
+  ));
 }
 
 class TestingApp extends StatelessWidget {
@@ -30,4 +28,3 @@ class TestingApp extends StatelessWidget {
     );
   }
 }
-

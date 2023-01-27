@@ -3,6 +3,16 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:testing_app/features/screens/gold_provider.dart';
 
+const gradientBackground = RadialGradient(
+  colors: [
+    Color(0xFF3C98CE),
+    Color(0xFF2171A1),
+    Color(0xFF144D70),
+  ],
+  center: Alignment.topLeft,
+  radius: 1.2,
+);
+
 NumberFormat priceformatter = NumberFormat.currency(decimalDigits: 2, locale: 'en_us', symbol: "");
 NumberFormat priceformatterNodecimal = NumberFormat.currency(decimalDigits: 0, locale: 'en_us', symbol: "");
 // final priceformatter = NumberFormat.decimalPattern();
@@ -37,18 +47,21 @@ class _GoldPriceState extends State<GoldPrice> {
     return RefreshIndicator(
       onRefresh: () async => getPrice(),
       child: Scaffold(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.transparent,
         body: Container(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-          child: ListView(
-            children: [
-              const KpvPrice(),
-              const KpvSellPrice(),
-              titlegoldprice(),
-              const GlobalGoldPrice(),
-              titlesilverprice(),
-              const GlobalSilverPrice(),
-            ],
+          decoration: const BoxDecoration(gradient: gradientBackground),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+            child: ListView(
+              children: [
+                const KpvPrice(),
+                const KpvSellPrice(),
+                titlegoldprice(),
+                const GlobalGoldPrice(),
+                titlesilverprice(),
+                const GlobalSilverPrice(),
+              ],
+            ),
           ),
         ),
       ),
@@ -295,8 +308,6 @@ class GlobalGoldPrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final usddata = context.watch<GoldProvider>().usdPriceModel;
-    final thbdata = context.watch<GoldProvider>().thbPriceModel;
     final cnydata = context.watch<GoldProvider>().cnyPriceModel;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -345,138 +356,9 @@ class GlobalGoldPrice extends StatelessWidget {
           ),
         ),
         const LakGlobalGoldPrice(),
-        Container(
-          padding: const EdgeInsets.all(5.0),
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Row(
-            //USDGold
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  //priceformatter.format(
-                  '${usddata?.items?[0].xauPrice.toString() != null ? priceformatter.format(usddata?.items?[0].xauPrice).toString() : ""}'
-                  ' USD',
-                  //),
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 192, 178, 54),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  //priceformatter.format(
-                  usddata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
-                  //),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: usddata?.items![0].pcXau?.toStringAsFixed(2) != null
-                    ? Text(
-                        //priceformatter.format(
-                        usddata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                        //),
-                        style: TextStyle(
-                          // color: usddata!.items![0].chgXag! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                          color: usddata!.items![0].chgXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                        ),
-                      )
-                    : const Text(''),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(5.0),
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Row(
-            //THBGold
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  //priceformatter.format(
-                  '${thbdata?.items?[0].xauPrice.toString() != null ? priceformatter.format(thbdata?.items?[0].xauPrice).toString() : ""}'
-                  ' THB',
-                  //),
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 192, 178, 54),
-                  ),
-                ),
-              ),
-              Expanded(
-                  flex: 2,
-                  child: Text(
-                    //priceformatter.format(
-                    thbdata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
-                  ) //),
-                  ),
-              Expanded(
-                flex: 2,
-                child: thbdata?.items![0].pcXau?.toStringAsFixed(2) != null
-                    ? Text(
-                        //priceformatter.format(
-                        thbdata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                        //),
-                        style: TextStyle(
-                          color: thbdata!.items![0].pcXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                        ),
-                      )
-                    : const Text(''),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(5.0),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(5.0),
-              bottomRight: Radius.circular(5.0),
-            ),
-          ),
-          child: Row(
-            //LAKGold
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  //priceformatter.format(
-                  '${cnydata?.items?[0].xauPrice.toString() != null ? priceformatter.format(cnydata?.items?[0].xauPrice).toString() : ""}'
-                  ' CNY',
-                  //),
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 192, 178, 54),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  //priceformatter.format(
-                  cnydata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
-                  //),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: cnydata?.items![0].pcXau?.toStringAsFixed(2) != null
-                    ? Text(
-                        //priceformatter.format(
-                        cnydata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                        //),
-                        style: TextStyle(
-                          color: cnydata!.items![0].pcXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                        ),
-                      )
-                    : const Text(''),
-              ),
-            ],
-          ),
-        ),
+        const UsdGlobalGoldPrice(),
+        const ThbGlobalGoldPrice(),
+        const CnyGlobalGoldPrice(),
       ],
     );
   }
@@ -488,7 +370,6 @@ class LakGlobalGoldPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lakdata = context.watch<GoldProvider>().lakPriceModel;
-
     return Container(
       padding: const EdgeInsets.all(5.0),
       decoration: const BoxDecoration(color: Colors.white),
@@ -535,15 +416,177 @@ class LakGlobalGoldPrice extends StatelessWidget {
   }
 }
 
+class UsdGlobalGoldPrice extends StatelessWidget {
+  const UsdGlobalGoldPrice({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final usddata = context.watch<GoldProvider>().usdPriceModel;
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Row(
+        //USDGold
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(
+              //priceformatter.format(
+              '${usddata?.items?[0].xauPrice.toString() != null ? priceformatter.format(usddata?.items?[0].xauPrice).toString() : ""}'
+              ' USD',
+              //),
+              style: const TextStyle(
+                color: Color.fromARGB(255, 192, 178, 54),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              //priceformatter.format(
+              usddata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
+              //),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: usddata?.items![0].pcXau?.toStringAsFixed(2) != null
+                ? Text(
+                    //priceformatter.format(
+                    usddata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+                    //),
+                    style: TextStyle(
+                      // color: usddata!.items![0].chgXag! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
+                      color: usddata!.items![0].chgXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+                    ),
+                  )
+                : const Text(''),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ThbGlobalGoldPrice extends StatelessWidget {
+  const ThbGlobalGoldPrice({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final thbdata = context.watch<GoldProvider>().thbPriceModel;
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(5.0),
+          bottomRight: Radius.circular(5.0),
+        ),
+      ),
+      child: Row(
+        //LAKGold
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(
+              //priceformatter.format(
+              '${thbdata?.items?[0].xauPrice.toString() != null ? priceformatter.format(thbdata?.items?[0].xauPrice).toString() : ""}'
+              ' CNY',
+              //),
+              style: const TextStyle(
+                color: Color.fromARGB(255, 192, 178, 54),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              //priceformatter.format(
+              thbdata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
+              //),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: thbdata?.items![0].pcXau?.toStringAsFixed(2) != null
+                ? Text(
+                    //priceformatter.format(
+                    thbdata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+                    //),
+                    style: TextStyle(
+                      color: thbdata!.items![0].pcXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+                    ),
+                  )
+                : const Text(''),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CnyGlobalGoldPrice extends StatelessWidget {
+  const CnyGlobalGoldPrice({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final cnydata = context.watch<GoldProvider>().cnyPriceModel;
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(5.0),
+          bottomRight: Radius.circular(5.0),
+        ),
+      ),
+      child: Row(
+        //LAKGold
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(
+              //priceformatter.format(
+              '${cnydata?.items?[0].xauPrice.toString() != null ? priceformatter.format(cnydata?.items?[0].xauPrice).toString() : ""}'
+              ' CNY',
+              //),
+              style: const TextStyle(
+                color: Color.fromARGB(255, 192, 178, 54),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              //priceformatter.format(
+              cnydata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
+              //),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: cnydata?.items![0].pcXau?.toStringAsFixed(2) != null
+                ? Text(
+                    //priceformatter.format(
+                    cnydata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+                    //),
+                    style: TextStyle(
+                      color: cnydata!.items![0].pcXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+                    ),
+                  )
+                : const Text(''),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class GlobalSilverPrice extends StatelessWidget {
   const GlobalSilverPrice({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final lakdata = context.watch<GoldProvider>().lakPriceModel;
-    final usddata = context.watch<GoldProvider>().usdPriceModel;
-    final thbdata = context.watch<GoldProvider>().thbPriceModel;
-    final cnydata = context.watch<GoldProvider>().cnyPriceModel;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -590,181 +633,221 @@ class GlobalSilverPrice extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(5.0),
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Row(
-            //LAKGold
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  //priceformatter.format(
-                  '${lakdata?.items?[0].xagPrice.toString() != null ? priceformatter.format(lakdata?.items?[0].xagPrice).toString() : ""}'
-                  ' LAK',
-                  //),
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 192, 178, 54),
-                  ),
-                ),
+        const LakGlobalSilverPrice(),
+        const ThbGlobalSilverPrice(),
+        const UsdGlobalSilverPrice(),
+        const CnyGlobalSilverPrice(),
+      ],
+    );
+  }
+}
+
+class LakGlobalSilverPrice extends StatelessWidget {
+  const LakGlobalSilverPrice({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final lakdata = context.watch<GoldProvider>().lakPriceModel;
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Row(
+        //LAKGold
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(
+              //priceformatter.format(
+              '${lakdata?.items?[0].xagPrice.toString() != null ? priceformatter.format(lakdata?.items?[0].xagPrice).toString() : ""}'
+              ' LAK',
+              //),
+              style: const TextStyle(
+                color: Color.fromARGB(255, 192, 178, 54),
               ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  //priceformatter.format(
-                  lakdata?.items?[0].chgXag.toString() != null ? priceformatter.format(lakdata?.items?[0].chgXag).toString() : "",
-                  //),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: lakdata?.items![0].pcXag?.toStringAsFixed(2) != null
-                    ? Text(
-                        //priceformatter.format(
-                        lakdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                        //),
-                        style: TextStyle(
-                          color: lakdata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                        ),
-                      )
-                    : const Text(''),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(5.0),
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Row(
-            //USDGold
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  //priceformatter.format(
-                  '${usddata?.items?[0].xagPrice.toString() != null ? priceformatter.format(usddata?.items?[0].xagPrice).toString() : ""}'
-                  ' USD',
-                  //),
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 192, 178, 54),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  //priceformatter.format(
-                  usddata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
-                  //),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: usddata?.items![0].pcXag?.toStringAsFixed(2) != null
-                    ? Text(
-                        //priceformatter.format(
-                        usddata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                        //),
-                        style: TextStyle(
-                          color: usddata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                        ),
-                      )
-                    : const Text(''),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(5.0),
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Row(
-            //THBGold
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  //priceformatter.format(
-                  '${thbdata?.items?[0].xagPrice.toString() != null ? priceformatter.format(thbdata?.items?[0].xagPrice).toString() : ""}'
-                  ' THB',
-                  //),
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 192, 178, 54),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  //priceformatter.format(
-                  thbdata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
-                  //),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: thbdata?.items![0].pcXag?.toStringAsFixed(2) != null
-                    ? Text(
-                        //priceformatter.format(
-                        thbdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                        //),
-                        style: TextStyle(
-                          color: thbdata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                        ),
-                      )
-                    : const Text(''),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(5.0),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(5.0),
-              bottomRight: Radius.circular(5.0),
             ),
           ),
-          child: Row(
-            //LAKGold
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  //priceformatter.format(
-                  '${cnydata?.items?[0].xagPrice?.toStringAsFixed(2) != null ? priceformatter.format(usddata?.items?[0].xagPrice).toString() : ""}'
-                  ' CNY',
-                  //),
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 192, 178, 54),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  //priceformatter.format(
-                  cnydata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
-                  //),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: cnydata?.items![0].pcXag?.toStringAsFixed(2) != null
-                    ? Text(
-                        //priceformatter.format(
-                        cnydata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                        //),
-                        style: TextStyle(
-                          color: cnydata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                        ),
-                      )
-                    : const Text(''),
-              ),
-            ],
+          Expanded(
+            flex: 2,
+            child: Text(
+              //priceformatter.format(
+              lakdata?.items?[0].chgXag.toString() != null ? priceformatter.format(lakdata?.items?[0].chgXag).toString() : "",
+              //),
+            ),
           ),
+          Expanded(
+            flex: 2,
+            child: lakdata?.items![0].pcXag?.toStringAsFixed(2) != null
+                ? Text(
+                    //priceformatter.format(
+                    lakdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+                    //),
+                    style: TextStyle(
+                      color: lakdata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+                    ),
+                  )
+                : const Text(''),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class UsdGlobalSilverPrice extends StatelessWidget {
+  const UsdGlobalSilverPrice({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final usddata = context.watch<GoldProvider>().usdPriceModel;
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Row(
+        //USDGold
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(
+              //priceformatter.format(
+              '${usddata?.items?[0].xagPrice.toString() != null ? priceformatter.format(usddata?.items?[0].xagPrice).toString() : ""}'
+              ' USD',
+              //),
+              style: const TextStyle(
+                color: Color.fromARGB(255, 192, 178, 54),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              //priceformatter.format(
+              usddata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
+              //),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: usddata?.items![0].pcXag?.toStringAsFixed(2) != null
+                ? Text(
+                    //priceformatter.format(
+                    usddata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+                    //),
+                    style: TextStyle(
+                      color: usddata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+                    ),
+                  )
+                : const Text(''),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ThbGlobalSilverPrice extends StatelessWidget {
+  const ThbGlobalSilverPrice({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final thbdata = context.watch<GoldProvider>().thbPriceModel;
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Row(
+        //THBGold
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(
+              //priceformatter.format(
+              '${thbdata?.items?[0].xagPrice.toString() != null ? priceformatter.format(thbdata?.items?[0].xagPrice).toString() : ""}'
+              ' THB',
+              //),
+              style: const TextStyle(
+                color: Color.fromARGB(255, 192, 178, 54),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              //priceformatter.format(
+              thbdata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
+              //),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: thbdata?.items![0].pcXag?.toStringAsFixed(2) != null
+                ? Text(
+                    //priceformatter.format(
+                    thbdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+                    //),
+                    style: TextStyle(
+                      color: thbdata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+                    ),
+                  )
+                : const Text(''),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CnyGlobalSilverPrice extends StatelessWidget {
+  const CnyGlobalSilverPrice({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final cnydata = context.watch<GoldProvider>().cnyPriceModel;
+    return Container(
+      padding: const EdgeInsets.all(5.0),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(5.0),
+          bottomRight: Radius.circular(5.0),
         ),
-      ],
+      ),
+      child: Row(
+        //LAKGold
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(
+              //priceformatter.format(
+              '${cnydata?.items?[0].xagPrice?.toStringAsFixed(2) != null ? priceformatter.format(cnydata?.items?[0].xagPrice).toString() : ""}'
+              ' CNY',
+              //),
+              style: const TextStyle(
+                color: Color.fromARGB(255, 192, 178, 54),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              //priceformatter.format(
+              cnydata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
+              //),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: cnydata?.items![0].pcXag?.toStringAsFixed(2) != null
+                ? Text(
+                    //priceformatter.format(
+                    cnydata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+                    //),
+                    style: TextStyle(
+                      color: cnydata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+                    ),
+                  )
+                : const Text(''),
+          ),
+        ],
+      ),
     );
   }
 }
