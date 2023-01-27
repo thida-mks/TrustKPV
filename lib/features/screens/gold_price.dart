@@ -62,16 +62,16 @@ class _GoldPriceState extends State<GoldPrice> {
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          leading: const Icon(Icons.arrow_back),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: const Text(
-            'ລາຄາທອງຄຳ',
-            style: TextStyle(fontSize: 18.0),
-          ),
-          centerTitle: true,
-        ),
+        // appBar: AppBar(
+        //   leading: const Icon(Icons.arrow_back),
+        //   backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        //   title: const Text(
+        //     'ລາຄາທອງຄຳ',
+        //     style: TextStyle(fontSize: 18.0),
+        //   ),
+        //   centerTitle: true,
+        // ),
           body: Container(
           padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
             child: ListView(

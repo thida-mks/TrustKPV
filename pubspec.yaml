@@ -86,7 +86,7 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Nato Sans Lao
+     - family: Nato-Sans-Lao
        fonts:
         - asset: assets\fonts\NotoSansLao-Regular.ttf
   #        - asset: fonts/TrajanPro.ttf
