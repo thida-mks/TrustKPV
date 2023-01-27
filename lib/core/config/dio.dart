@@ -6,9 +6,7 @@ import 'package:logger/logger.dart';
 
 final box = GetStorage();
 final logger = Logger();
-
-
-final Dio dio = Dio(
+final Dio dioglobalgold = Dio(
   BaseOptions(
     connectTimeout: 19000,
     receiveTimeout: 19000,
@@ -18,9 +16,9 @@ final Dio dio = Dio(
     },
     baseUrl: 'https://data-asg.goldprice.org/',
   ),
-)..interceptors.add(Logging());
+)..interceptors.add(GlobalpriceLogging());
 
-class Logging extends Interceptor {
+class GlobalpriceLogging extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     print(
@@ -49,3 +47,11 @@ class Logging extends Interceptor {
     return handler.next(err);
   }
 }
+
+
+final Dio diokpvgold = Dio(
+  BaseOptions(headers: {
+    'kpv_key': '66cdf19ddb86ff2f55bcec57b411d566a7769517',
+    'client_secret': 'LDB'
+  })
+)..interceptors.add(GlobalpriceLogging(),);

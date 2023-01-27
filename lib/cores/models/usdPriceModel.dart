@@ -1,16 +1,10 @@
-// ignore_for_file: unnecessary_this, unnecessary_new, prefer_collection_literals, camel_case_types
-
-class usdPriceModel {
-  int? ts;
-  int? tsj;
+class UsdPriceModel {
   String? date;
   List<Items>? items;
 
-  usdPriceModel({this.ts, this.tsj, this.date, this.items});
+  UsdPriceModel({this.date, this.items});
 
-  usdPriceModel.fromJson(Map<String, dynamic> json) {
-    ts = json['ts'];
-    tsj = json['tsj'];
+  UsdPriceModel.fromJson(Map<String, dynamic> json) {
     date = json['date'];
     if (json['items'] != null) {
       items = <Items>[];
@@ -22,11 +16,9 @@ class usdPriceModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ts'] = this.ts;
-    data['tsj'] = this.tsj;
-    data['date'] = this.date;
-    if (this.items != null) {
-      data['items'] = this.items!.map((v) => v.toJson()).toList();
+    data['date'] = date;
+    if (items != null) {
+      data['items'] = items!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -35,28 +27,40 @@ class usdPriceModel {
 class Items {
   String? curr;
   double? xauPrice;
+  double? xagPrice;
   double? chgXau;
+  double? chgXag;
   double? pcXau;
+  double? pcXag;
 
   Items(
       {this.curr,
       this.xauPrice,
+      this.xagPrice,
       this.chgXau,
-      this.pcXau,});
+      this.chgXag,
+      this.pcXau,
+      this.pcXag,});
 
   Items.fromJson(Map<String, dynamic> json) {
     curr = json['curr'];
     xauPrice = json['xauPrice'];
+    xagPrice = json['xagPrice'];
     chgXau = json['chgXau'];
+    chgXag = json['chgXag'];
     pcXau = json['pcXau'];
+    pcXag = json['pcXag'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['curr'] = this.curr;
-    data['xauPrice'] = this.xauPrice;
-    data['chgXau'] = this.chgXau;
-    data['pcXau'] = this.pcXau;
+    data['curr'] = curr;
+    data['xauPrice'] = xauPrice;
+    data['xagPrice'] = xagPrice;
+    data['chgXau'] = chgXau;
+    data['chgXag'] = chgXag;
+    data['pcXau'] = pcXau;
+    data['pcXag'] = pcXag;
     return data;
   }
 }
