@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unnecessary_new, prefer_collection_literals
+
 class UsdPriceModel {
   String? date;
   List<Items>? items;

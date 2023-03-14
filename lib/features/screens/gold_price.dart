@@ -1,17 +1,9 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:testing_app/features/screens/gold_provider.dart';
-
-const gradientBackground = RadialGradient(
-  colors: [
-    Color(0xFF3C98CE),
-    Color(0xFF2171A1),
-    Color(0xFF144D70),
-  ],
-  center: Alignment.topLeft,
-  radius: 1.2,
-);
 
 NumberFormat priceformatter = NumberFormat.currency(decimalDigits: 2, locale: 'en_us', symbol: "");
 NumberFormat priceformatterNodecimal = NumberFormat.currency(decimalDigits: 0, locale: 'en_us', symbol: "");
@@ -49,17 +41,31 @@ class _GoldPriceState extends State<GoldPrice> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
-          decoration: const BoxDecoration(gradient: gradientBackground),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.centerRight,
+              stops: [0.1, 0.4, 0.9],
+              colors: [
+                Color(0xFF3C98CE),
+                Color(0xFF2171A1),
+                Color(0xFF144D70),
+              ],
+            ),
+          ),
           child: Container(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
             child: ListView(
               children: [
                 const KpvPrice(),
+                titlegoldbarprice(),
+                const KpvGoldBarSellPrice(),
+                titlekpvgoldprice(),
                 const KpvSellPrice(),
-                titlegoldprice(),
-                const GlobalGoldPrice(),
-                titlesilverprice(),
-                const GlobalSilverPrice(),
+                // titlegoldprice(),
+                // const GlobalGoldPrice(),
+                // titlesilverprice(),
+                // const GlobalSilverPrice(),
               ],
             ),
           ),
@@ -95,7 +101,7 @@ class KpvPrice extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
                     child: const Text(
                       'ລາຄາຄຳປະຈຳວັນ',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.white),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white),
                     ),
                   ),
                 ),
@@ -167,7 +173,7 @@ class KpvSellPrice extends StatelessWidget {
                           margin: const EdgeInsets.only(left: 10.0),
                           child: const Text(
                             '01 ບາດ',
-                            style: TextStyle(fontSize: 18.0, color: Colors.white),
+                            style: TextStyle(fontSize: 15.0, color: Colors.white),
                           ),
                         ),
                       ),
@@ -186,7 +192,7 @@ class KpvSellPrice extends StatelessWidget {
                             child: Text(
                               '${kpvdata?.data?[0].oneBahtSalePrice.toString() != null ? priceformatterNodecimal.format(kpvdata?.data?[0].oneBahtSalePrice).toString() : ""}'
                               ' ກີບ',
-                              style: const TextStyle(fontSize: 20.0, color: Colors.white),
+                              style: const TextStyle(fontSize: 15.0, color: Colors.white),
                             ),
                           ),
                         ),
@@ -212,7 +218,7 @@ class KpvSellPrice extends StatelessWidget {
                   child: const Center(
                     child: Text(
                       'ລາຄາຂາຍ',
-                      style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      style: TextStyle(fontSize: 15.0, color: Colors.white),
                     ),
                   ),
                 ),
@@ -243,7 +249,7 @@ class KpvSellPrice extends StatelessWidget {
                           margin: const EdgeInsets.only(left: 10.0),
                           child: const Text(
                             '01 ສະຫຼຶງ',
-                            style: TextStyle(fontSize: 18.0, color: Colors.white),
+                            style: TextStyle(fontSize: 15.0, color: Colors.white),
                           ),
                         ),
                       ),
@@ -264,7 +270,7 @@ class KpvSellPrice extends StatelessWidget {
                               '${kpvdata?.data?[0].oneSalungSalePrice.toString() != null ? priceformatterNodecimal.format(kpvdata?.data?[0].oneSalungSalePrice).toString() : ""}'
                               ' ກີບ',
                               //),
-                              style: const TextStyle(fontSize: 20.0, color: Colors.white),
+                              style: const TextStyle(fontSize: 15.0, color: Colors.white),
                             ),
                           ),
                         ),
@@ -290,7 +296,7 @@ class KpvSellPrice extends StatelessWidget {
                   child: const Center(
                     child: Text(
                       'ລາຄາຂາຍ',
-                      style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      style: TextStyle(fontSize: 15.0, color: Colors.white),
                     ),
                   ),
                 ),
@@ -303,562 +309,765 @@ class KpvSellPrice extends StatelessWidget {
   }
 }
 
-class GlobalGoldPrice extends StatelessWidget {
-  const GlobalGoldPrice({Key? key}) : super(key: key);
+class KpvGoldBarSellPrice extends StatelessWidget {
+  const KpvGoldBarSellPrice({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cnydata = context.watch<GoldProvider>().cnyPriceModel;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(5.0),
-              topRight: Radius.circular(5.0),
-            ),
-            border: Border.all(color: Colors.transparent, width: 2),
-          ),
-          child: Row(
-            //Header
-            children: const [
+    final kpvdata = context.watch<GoldProvider>().kpvPriceModel;
+    return SizedBox(
+      width: 200.0,
+      height: 120.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Row(
+            children: [
               Expanded(
                 flex: 3,
-                child: Text(
-                  'ລາຄາ/Ounces',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                child: Container(
+                  height: 50.0,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                    ),
+                    color: Color.fromARGB(255, 28, 127, 207),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          width: 30.0,
+                          margin: const EdgeInsets.only(left: 10.0),
+                          child: const Text(
+                            '01 ບາດ',
+                            style: TextStyle(fontSize: 15.0, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          height: 50.0,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            ),
+                            color: Color.fromARGB(255, 21, 92, 151),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${kpvdata?.data?[0].oneBahtSalePriceGoldBar.toString() != null ? priceformatterNodecimal.format(kpvdata?.data?[0].oneBahtSalePriceGoldBar).toString() : ""}'
+                              ' ກີບ',
+                              style: const TextStyle(fontSize: 15.0, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               Expanded(
-                flex: 2,
-                child: Text(
-                  'ປ່ຽນແປງ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                flex: 1,
+                child: Container(
+                  margin: const EdgeInsets.only(left: 5.0),
+                  padding: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  height: 50.0,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    color: Color.fromARGB(255, 21, 92, 151),
                   ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  'ເປີເຊັນ/ວັນ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                  child: const Center(
+                    child: Text(
+                      'ລາຄາຂາຍ',
+                      style: TextStyle(fontSize: 15.0, color: Colors.white),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-        ),
-        const LakGlobalGoldPrice(),
-        const UsdGlobalGoldPrice(),
-        const ThbGlobalGoldPrice(),
-        const CnyGlobalGoldPrice(),
-      ],
-    );
-  }
-}
-
-class LakGlobalGoldPrice extends StatelessWidget {
-  const LakGlobalGoldPrice({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final lakdata = context.watch<GoldProvider>().lakPriceModel;
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: const BoxDecoration(color: Colors.white),
-      child: Row(
-        //LAKGold
-        children: [
-          Expanded(
-            flex: 3,
-            child: Text(
-              //priceformatter.format(
-              '${lakdata?.items?[0].xauPrice.toString() != null ? priceformatter.format(lakdata?.items?[0].xauPrice).toString() : ""}'
-              ' LAK',
-
-              //),
-              style: const TextStyle(
-                color: Color.fromARGB(255, 192, 178, 54),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              //priceformatter.format(
-              lakdata?.items?[0].chgXau.toString() != null ? priceformatter.format(lakdata?.items?[0].chgXau).toString() : "",
-              //),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: lakdata?.items![0].pcXau?.toStringAsFixed(2) != null
-                ? Text(
-                    //priceformatter.format(
-                    lakdata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                    //),
-                    style: TextStyle(
-                      color: lakdata!.items![0].pcXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                    ),
-                  )
-                : const Text(''),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class UsdGlobalGoldPrice extends StatelessWidget {
-  const UsdGlobalGoldPrice({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final usddata = context.watch<GoldProvider>().usdPriceModel;
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: const BoxDecoration(color: Colors.white),
-      child: Row(
-        //USDGold
-        children: [
-          Expanded(
-            flex: 3,
-            child: Text(
-              //priceformatter.format(
-              '${usddata?.items?[0].xauPrice.toString() != null ? priceformatter.format(usddata?.items?[0].xauPrice).toString() : ""}'
-              ' USD',
-              //),
-              style: const TextStyle(
-                color: Color.fromARGB(255, 192, 178, 54),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              //priceformatter.format(
-              usddata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
-              //),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: usddata?.items![0].pcXau?.toStringAsFixed(2) != null
-                ? Text(
-                    //priceformatter.format(
-                    usddata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                    //),
-                    style: TextStyle(
-                      // color: usddata!.items![0].chgXag! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                      color: usddata!.items![0].chgXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                    ),
-                  )
-                : const Text(''),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ThbGlobalGoldPrice extends StatelessWidget {
-  const ThbGlobalGoldPrice({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final thbdata = context.watch<GoldProvider>().thbPriceModel;
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(5.0),
-          bottomRight: Radius.circular(5.0),
-        ),
-      ),
-      child: Row(
-        //LAKGold
-        children: [
-          Expanded(
-            flex: 3,
-            child: Text(
-              //priceformatter.format(
-              '${thbdata?.items?[0].xauPrice.toString() != null ? priceformatter.format(thbdata?.items?[0].xauPrice).toString() : ""}'
-              ' CNY',
-              //),
-              style: const TextStyle(
-                color: Color.fromARGB(255, 192, 178, 54),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              //priceformatter.format(
-              thbdata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
-              //),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: thbdata?.items![0].pcXau?.toStringAsFixed(2) != null
-                ? Text(
-                    //priceformatter.format(
-                    thbdata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                    //),
-                    style: TextStyle(
-                      color: thbdata!.items![0].pcXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                    ),
-                  )
-                : const Text(''),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CnyGlobalGoldPrice extends StatelessWidget {
-  const CnyGlobalGoldPrice({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final cnydata = context.watch<GoldProvider>().cnyPriceModel;
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(5.0),
-          bottomRight: Radius.circular(5.0),
-        ),
-      ),
-      child: Row(
-        //LAKGold
-        children: [
-          Expanded(
-            flex: 3,
-            child: Text(
-              //priceformatter.format(
-              '${cnydata?.items?[0].xauPrice.toString() != null ? priceformatter.format(cnydata?.items?[0].xauPrice).toString() : ""}'
-              ' CNY',
-              //),
-              style: const TextStyle(
-                color: Color.fromARGB(255, 192, 178, 54),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              //priceformatter.format(
-              cnydata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
-              //),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: cnydata?.items![0].pcXau?.toStringAsFixed(2) != null
-                ? Text(
-                    //priceformatter.format(
-                    cnydata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
-                    //),
-                    style: TextStyle(
-                      color: cnydata!.items![0].pcXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                    ),
-                  )
-                : const Text(''),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class GlobalSilverPrice extends StatelessWidget {
-  const GlobalSilverPrice({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(5.0),
-              topRight: Radius.circular(5.0),
-            ),
-            border: Border.all(color: Colors.transparent, width: 2),
-          ),
-          child: Row(
-            //Header
-            children: const [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
               Expanded(
                 flex: 3,
-                child: Text(
-                  'ລາຄາ/Ounces',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                child: Container(
+                  // width: double.infinity,
+                  height: 50.0,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                    ),
+                    color: Color.fromARGB(255, 28, 127, 207),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          width: 30.0,
+                          margin: const EdgeInsets.only(left: 10.0),
+                          child: const Text(
+                            '01 ສະຫຼຶງ',
+                            style: TextStyle(fontSize: 15.0, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          height: 50.0,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            ),
+                            color: Color.fromARGB(255, 21, 92, 151),
+                          ),
+                          child: Center(
+                            child: Text(
+                              //priceformatter.format(
+                              '${kpvdata?.data?[0].oneSalungSalePriceGoldBar.toString() != null ? priceformatterNodecimal.format(kpvdata?.data?[0].oneSalungSalePriceGoldBar).toString() : ""}'
+                              ' ກີບ',
+                              //),
+                              style: const TextStyle(fontSize: 15.0, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               Expanded(
-                flex: 2,
-                child: Text(
-                  'ປ່ຽນແປງ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                flex: 1,
+                child: Container(
+                  margin: const EdgeInsets.only(left: 5.0),
+                  padding: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  height: 50.0,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                    color: Color.fromARGB(255, 21, 92, 151),
                   ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  'ເປີເຊັນ/ວັນ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                  child: const Center(
+                    child: Text(
+                      'ລາຄາຂາຍ',
+                      style: TextStyle(fontSize: 15.0, color: Colors.white),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-        ),
-        const LakGlobalSilverPrice(),
-        const ThbGlobalSilverPrice(),
-        const UsdGlobalSilverPrice(),
-        const CnyGlobalSilverPrice(),
-      ],
-    );
-  }
-}
-
-class LakGlobalSilverPrice extends StatelessWidget {
-  const LakGlobalSilverPrice({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final lakdata = context.watch<GoldProvider>().lakPriceModel;
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: const BoxDecoration(color: Colors.white),
-      child: Row(
-        //LAKGold
-        children: [
-          Expanded(
-            flex: 3,
-            child: Text(
-              //priceformatter.format(
-              '${lakdata?.items?[0].xagPrice.toString() != null ? priceformatter.format(lakdata?.items?[0].xagPrice).toString() : ""}'
-              ' LAK',
-              //),
-              style: const TextStyle(
-                color: Color.fromARGB(255, 192, 178, 54),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              //priceformatter.format(
-              lakdata?.items?[0].chgXag.toString() != null ? priceformatter.format(lakdata?.items?[0].chgXag).toString() : "",
-              //),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: lakdata?.items![0].pcXag?.toStringAsFixed(2) != null
-                ? Text(
-                    //priceformatter.format(
-                    lakdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                    //),
-                    style: TextStyle(
-                      color: lakdata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                    ),
-                  )
-                : const Text(''),
-          ),
         ],
       ),
     );
   }
 }
 
-class UsdGlobalSilverPrice extends StatelessWidget {
-  const UsdGlobalSilverPrice({Key? key}) : super(key: key);
+// class GlobalGoldPrice extends StatelessWidget {
+//   const GlobalGoldPrice({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final usddata = context.watch<GoldProvider>().usdPriceModel;
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: const BoxDecoration(color: Colors.white),
-      child: Row(
-        //USDGold
-        children: [
-          Expanded(
-            flex: 3,
-            child: Text(
-              //priceformatter.format(
-              '${usddata?.items?[0].xagPrice.toString() != null ? priceformatter.format(usddata?.items?[0].xagPrice).toString() : ""}'
-              ' USD',
-              //),
-              style: const TextStyle(
-                color: Color.fromARGB(255, 192, 178, 54),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              //priceformatter.format(
-              usddata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
-              //),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: usddata?.items![0].pcXag?.toStringAsFixed(2) != null
-                ? Text(
-                    //priceformatter.format(
-                    usddata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                    //),
-                    style: TextStyle(
-                      color: usddata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                    ),
-                  )
-                : const Text(''),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//       children: [
+//         Container(
+//           padding: const EdgeInsets.all(5.0),
+//           decoration: BoxDecoration(
+//             color: Colors.white,
+//             borderRadius: const BorderRadius.only(
+//               topLeft: Radius.circular(5.0),
+//               topRight: Radius.circular(5.0),
+//             ),
+//             border: Border.all(color: Colors.transparent, width: 2),
+//           ),
+//           child: Row(
+//             //Header
+//             children: const [
+//               Expanded(
+//                 flex: 3,
+//                 child: Text(
+//                   'ລາຄາ/Ounces',
+//                   style: TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ),
+//               Expanded(
+//                 flex: 2,
+//                 child: Text(
+//                   'ປ່ຽນແປງ',
+//                   style: TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ),
+//               Expanded(
+//                 flex: 2,
+//                 child: Text(
+//                   'ເປີເຊັນ/ວັນ',
+//                   style: TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//         const LakGlobalGoldPrice(),
+//         const UsdGlobalGoldPrice(),
+//         const ThbGlobalGoldPrice(),
+//         const CnyGlobalGoldPrice(),
+//       ],
+//     );
+//   }
+// }
 
-class ThbGlobalSilverPrice extends StatelessWidget {
-  const ThbGlobalSilverPrice({Key? key}) : super(key: key);
+// class LakGlobalGoldPrice extends StatelessWidget {
+//   const LakGlobalGoldPrice({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    final thbdata = context.watch<GoldProvider>().thbPriceModel;
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: const BoxDecoration(color: Colors.white),
-      child: Row(
-        //THBGold
-        children: [
-          Expanded(
-            flex: 3,
-            child: Text(
-              //priceformatter.format(
-              '${thbdata?.items?[0].xagPrice.toString() != null ? priceformatter.format(thbdata?.items?[0].xagPrice).toString() : ""}'
-              ' THB',
-              //),
-              style: const TextStyle(
-                color: Color.fromARGB(255, 192, 178, 54),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              //priceformatter.format(
-              thbdata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
-              //),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: thbdata?.items![0].pcXag?.toStringAsFixed(2) != null
-                ? Text(
-                    //priceformatter.format(
-                    thbdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                    //),
-                    style: TextStyle(
-                      color: thbdata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                    ),
-                  )
-                : const Text(''),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final lakdata = context.watch<GoldProvider>().lakPriceModel;
+//     return Container(
+//       padding: const EdgeInsets.all(5.0),
+//       decoration: const BoxDecoration(color: Colors.white),
+//       child: Row(
+//         //LAKGold
+//         children: [
+//           Expanded(
+//             flex: 3,
+//             child: Text(
+//               //priceformatter.format(
+//               '${lakdata?.items?[0].xauPrice.toString() != null ? priceformatter.format(lakdata?.items?[0].xauPrice).toString() : ""}'
+//               ' LAK',
 
-class CnyGlobalSilverPrice extends StatelessWidget {
-  const CnyGlobalSilverPrice({Key? key}) : super(key: key);
+//               //),
+//               style: const TextStyle(
+//                 color: Color.fromARGB(255, 192, 178, 54),
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: Text(
+//               //priceformatter.format(
+//               lakdata?.items?[0].chgXau.toString() != null ? priceformatter.format(lakdata?.items?[0].chgXau).toString() : "",
+//               //),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: lakdata?.items![0].pcXau?.toStringAsFixed(2) != null
+//                 ? Text(
+//                     //priceformatter.format(
+//                     lakdata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+//                     //),
+//                     style: TextStyle(
+//                       color: lakdata!.items![0].pcXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+//                     ),
+//                   )
+//                 : const Text(''),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    final cnydata = context.watch<GoldProvider>().cnyPriceModel;
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(5.0),
-          bottomRight: Radius.circular(5.0),
-        ),
-      ),
-      child: Row(
-        //LAKGold
-        children: [
-          Expanded(
-            flex: 3,
-            child: Text(
-              //priceformatter.format(
-              '${cnydata?.items?[0].xagPrice?.toStringAsFixed(2) != null ? priceformatter.format(cnydata?.items?[0].xagPrice).toString() : ""}'
-              ' CNY',
-              //),
-              style: const TextStyle(
-                color: Color.fromARGB(255, 192, 178, 54),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              //priceformatter.format(
-              cnydata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
-              //),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: cnydata?.items![0].pcXag?.toStringAsFixed(2) != null
-                ? Text(
-                    //priceformatter.format(
-                    cnydata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
-                    //),
-                    style: TextStyle(
-                      color: cnydata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
-                    ),
-                  )
-                : const Text(''),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class UsdGlobalGoldPrice extends StatelessWidget {
+//   const UsdGlobalGoldPrice({Key? key}) : super(key: key);
 
-Widget titlegoldprice() {
+//   @override
+//   Widget build(BuildContext context) {
+//     final usddata = context.watch<GoldProvider>().usdPriceModel;
+//     return Container(
+//       padding: const EdgeInsets.all(5.0),
+//       decoration: const BoxDecoration(color: Colors.white),
+//       child: Row(
+//         //USDGold
+//         children: [
+//           Expanded(
+//             flex: 3,
+//             child: Text(
+//               //priceformatter.format(
+//               '${usddata?.items?[0].xauPrice.toString() != null ? priceformatter.format(usddata?.items?[0].xauPrice).toString() : ""}'
+//               ' USD',
+//               //),
+//               style: const TextStyle(
+//                 color: Color.fromARGB(255, 192, 178, 54),
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: Text(
+//               //priceformatter.format(
+//               usddata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
+//               //),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: usddata?.items![0].pcXau?.toStringAsFixed(2) != null
+//                 ? Text(
+//                     //priceformatter.format(
+//                     usddata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+//                     //),
+//                     style: TextStyle(
+//                       // color: usddata!.items![0].chgXag! < 0.0 ?Color.fromARGB(255, 172, 39, 46) : Colors.green,
+//                       color: usddata!.items![0].chgXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+//                     ),
+//                   )
+//                 : const Text(''),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class ThbGlobalGoldPrice extends StatelessWidget {
+//   const ThbGlobalGoldPrice({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final thbdata = context.watch<GoldProvider>().thbPriceModel;
+//     return Container(
+//       padding: const EdgeInsets.all(5.0),
+//       decoration: const BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.only(
+//           bottomLeft: Radius.circular(5.0),
+//           bottomRight: Radius.circular(5.0),
+//         ),
+//       ),
+//       child: Row(
+//         //LAKGold
+//         children: [
+//           Expanded(
+//             flex: 3,
+//             child: Text(
+//               //priceformatter.format(
+//               '${thbdata?.items?[0].xauPrice.toString() != null ? priceformatter.format(thbdata?.items?[0].xauPrice).toString() : ""}'
+//               ' THB',
+//               //),
+//               style: const TextStyle(
+//                 color: Color.fromARGB(255, 192, 178, 54),
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: Text(
+//               //priceformatter.format(
+//               thbdata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
+//               //),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: thbdata?.items![0].pcXau?.toStringAsFixed(2) != null
+//                 ? Text(
+//                     //priceformatter.format(
+//                     thbdata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+//                     //),
+//                     style: TextStyle(
+//                       color: thbdata!.items![0].pcXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+//                     ),
+//                   )
+//                 : const Text(''),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class CnyGlobalGoldPrice extends StatelessWidget {
+//   const CnyGlobalGoldPrice({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final cnydata = context.watch<GoldProvider>().cnyPriceModel;
+//     return Container(
+//       padding: const EdgeInsets.all(5.0),
+//       decoration: const BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.only(
+//           bottomLeft: Radius.circular(5.0),
+//           bottomRight: Radius.circular(5.0),
+//         ),
+//       ),
+//       child: Row(
+//         //LAKGold
+//         children: [
+//           Expanded(
+//             flex: 3,
+//             child: Text(
+//               //priceformatter.format(
+//               '${cnydata?.items?[0].xauPrice.toString() != null ? priceformatter.format(cnydata?.items?[0].xauPrice).toString() : ""}'
+//               ' CNY',
+//               //),
+//               style: const TextStyle(
+//                 color: Color.fromARGB(255, 192, 178, 54),
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: Text(
+//               //priceformatter.format(
+//               cnydata?.items![0].chgXau?.toStringAsFixed(2) ?? "",
+//               //),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: cnydata?.items![0].pcXau?.toStringAsFixed(2) != null
+//                 ? Text(
+//                     //priceformatter.format(
+//                     cnydata?.items![0].pcXau?.toStringAsFixed(2) ?? "",
+//                     //),
+//                     style: TextStyle(
+//                       color: cnydata!.items![0].pcXau! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+//                     ),
+//                   )
+//                 : const Text(''),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class GlobalSilverPrice extends StatelessWidget {
+//   const GlobalSilverPrice({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//       children: [
+//         Container(
+//           padding: const EdgeInsets.all(5.0),
+//           decoration: BoxDecoration(
+//             color: Colors.white,
+//             borderRadius: const BorderRadius.only(
+//               topLeft: Radius.circular(5.0),
+//               topRight: Radius.circular(5.0),
+//             ),
+//             border: Border.all(color: Colors.transparent, width: 2),
+//           ),
+//           child: Row(
+//             //Header
+//             children: const [
+//               Expanded(
+//                 flex: 3,
+//                 child: Text(
+//                   'ລາຄາ/Ounces',
+//                   style: TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ),
+//               Expanded(
+//                 flex: 2,
+//                 child: Text(
+//                   'ປ່ຽນແປງ',
+//                   style: TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ),
+//               Expanded(
+//                 flex: 2,
+//                 child: Text(
+//                   'ເປີເຊັນ/ວັນ',
+//                   style: TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//         const LakGlobalSilverPrice(),
+//         const UsdGlobalSilverPrice(),
+//         const ThbGlobalSilverPrice(),
+//         const CnyGlobalSilverPrice(),
+//       ],
+//     );
+//   }
+// }
+
+// class LakGlobalSilverPrice extends StatelessWidget {
+//   const LakGlobalSilverPrice({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final lakdata = context.watch<GoldProvider>().lakPriceModel;
+//     return Container(
+//       padding: const EdgeInsets.all(5.0),
+//       decoration: const BoxDecoration(color: Colors.white),
+//       child: Row(
+//         //LAKGold
+//         children: [
+//           Expanded(
+//             flex: 3,
+//             child: Text(
+//               //priceformatter.format(
+//               '${lakdata?.items?[0].xagPrice.toString() != null ? priceformatter.format(lakdata?.items?[0].xagPrice).toString() : ""}'
+//               ' LAK',
+//               //),
+//               style: const TextStyle(
+//                 color: Color.fromARGB(255, 192, 178, 54),
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: Text(
+//               //priceformatter.format(
+//               lakdata?.items?[0].chgXag.toString() != null ? priceformatter.format(lakdata?.items?[0].chgXag).toString() : "",
+//               //),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: lakdata?.items![0].pcXag?.toStringAsFixed(2) != null
+//                 ? Text(
+//                     //priceformatter.format(
+//                     lakdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+//                     //),
+//                     style: TextStyle(
+//                       color: lakdata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+//                     ),
+//                   )
+//                 : const Text(''),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class UsdGlobalSilverPrice extends StatelessWidget {
+//   const UsdGlobalSilverPrice({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final usddata = context.watch<GoldProvider>().usdPriceModel;
+//     return Container(
+//       padding: const EdgeInsets.all(5.0),
+//       decoration: const BoxDecoration(color: Colors.white),
+//       child: Row(
+//         //USDGold
+//         children: [
+//           Expanded(
+//             flex: 3,
+//             child: Text(
+//               //priceformatter.format(
+//               '${usddata?.items?[0].xagPrice.toString() != null ? priceformatter.format(usddata?.items?[0].xagPrice).toString() : ""}'
+//               ' USD',
+//               //),
+//               style: const TextStyle(
+//                 color: Color.fromARGB(255, 192, 178, 54),
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: Text(
+//               //priceformatter.format(
+//               usddata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
+//               //),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: usddata?.items![0].pcXag?.toStringAsFixed(2) != null
+//                 ? Text(
+//                     //priceformatter.format(
+//                     usddata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+//                     //),
+//                     style: TextStyle(
+//                       color: usddata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+//                     ),
+//                   )
+//                 : const Text(''),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class ThbGlobalSilverPrice extends StatelessWidget {
+//   const ThbGlobalSilverPrice({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final thbdata = context.watch<GoldProvider>().thbPriceModel;
+//     return Container(
+//       padding: const EdgeInsets.all(5.0),
+//       decoration: const BoxDecoration(color: Colors.white),
+//       child: Row(
+//         //THBGold
+//         children: [
+//           Expanded(
+//             flex: 3,
+//             child: Text(
+//               //priceformatter.format(
+//               '${thbdata?.items?[0].xagPrice.toString() != null ? priceformatter.format(thbdata?.items?[0].xagPrice).toString() : ""}'
+//               ' THB',
+//               //),
+//               style: const TextStyle(
+//                 color: Color.fromARGB(255, 192, 178, 54),
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: Text(
+//               //priceformatter.format(
+//               thbdata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
+//               //),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: thbdata?.items![0].pcXag?.toStringAsFixed(2) != null
+//                 ? Text(
+//                     //priceformatter.format(
+//                     thbdata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+//                     //),
+//                     style: TextStyle(
+//                       color: thbdata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+//                     ),
+//                   )
+//                 : const Text(''),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class CnyGlobalSilverPrice extends StatelessWidget {
+//   const CnyGlobalSilverPrice({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final cnydata = context.watch<GoldProvider>().cnyPriceModel;
+//     return Container(
+//       padding: const EdgeInsets.all(5.0),
+//       decoration: const BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.only(
+//           bottomLeft: Radius.circular(5.0),
+//           bottomRight: Radius.circular(5.0),
+//         ),
+//       ),
+//       child: Row(
+//         //LAKGold
+//         children: [
+//           Expanded(
+//             flex: 3,
+//             child: Text(
+//               //priceformatter.format(
+//               '${cnydata?.items?[0].xagPrice?.toStringAsFixed(2) != null ? priceformatter.format(cnydata?.items?[0].xagPrice).toString() : ""}'
+//               ' CNY',
+//               //),
+//               style: const TextStyle(
+//                 color: Color.fromARGB(255, 192, 178, 54),
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: Text(
+//               //priceformatter.format(
+//               cnydata?.items![0].chgXag?.toStringAsFixed(2) ?? "",
+//               //),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: cnydata?.items![0].pcXag?.toStringAsFixed(2) != null
+//                 ? Text(
+//                     //priceformatter.format(
+//                     cnydata?.items![0].pcXag?.toStringAsFixed(2) ?? "",
+//                     //),
+//                     style: TextStyle(
+//                       color: cnydata!.items![0].pcXag! < 0.0 ? const Color.fromARGB(255, 172, 39, 46) : Colors.green,
+//                     ),
+//                   )
+//                 : const Text(''),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// Widget titlegoldprice() {
+//   return const SizedBox(
+//     width: double.infinity,
+//     height: 50.0,
+//     child: Center(
+//       child: Text(
+//         'ລາຄາທອງຄຳອີງຕາມຕະຫຼາດທອງຄຳ',
+//         style: TextStyle(
+//           fontWeight: FontWeight.bold,
+//           fontSize: 18.0,
+//           color: Colors.white,
+//         ),
+//       ),
+//     ),
+//   );
+// }
+
+// Widget titlesilverprice() {
+//   return const SizedBox(
+//     width: double.infinity,
+//     height: 50.0,
+//     child: Center(
+//       child: Text(
+//         'ລາຄາເງິນອີງຕາມຕະຫຼາດສາກົນ',
+//         style: TextStyle(
+//           fontWeight: FontWeight.bold,
+//           fontSize: 18.0,
+//           color: Colors.white,
+//         ),
+//       ),
+//     ),
+//   );
+// }
+
+Widget titlegoldbarprice() {
   return const SizedBox(
     width: double.infinity,
     height: 50.0,
     child: Center(
       child: Text(
-        'ລາຄາທອງຄຳອີງຕາມຕະຫຼາດທອງຄຳ',
+        'ລາຄາຄຳແທ່ງ',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 18.0,
@@ -869,13 +1078,13 @@ Widget titlegoldprice() {
   );
 }
 
-Widget titlesilverprice() {
+Widget titlekpvgoldprice() {
   return const SizedBox(
     width: double.infinity,
     height: 50.0,
     child: Center(
       child: Text(
-        'ລາຄາເງິນອີງຕາມຕະຫຼາດສາກົນ',
+        'ລາຄາຄຳຮູບປະພັນ',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 18.0,

@@ -63,7 +63,7 @@ class GoldProvider extends ChangeNotifier {
     final String currentdate = formatter.format(now);
     final String oldDate = formatter.format(getoldDate);
     Response res = await diokpvgold.get(
-        'https://pkg94kdx82.execute-api.ap-southeast-1.amazonaws.com/api-gateway-service/api/v1/gateway/current-price?from_date=$oldDate&to_date=$currentdate');
+        'https://kpv-api.lailaolab.la/gateway-service/api/v1/gateway/current-price?from_date=$oldDate&to_date=$currentdate');
     if (res.statusCode == 200) {
       kpvPriceModel = KpvPriceModel.fromJson(res.data);
       notifyListeners();

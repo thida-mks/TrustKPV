@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_new, prefer_collection_literals, unnecessary_this
+// ignore_for_file: file_names, unnecessary_new, prefer_collection_literals, unnecessary_this
 
 class ThbPriceModel {
   int? ts;
